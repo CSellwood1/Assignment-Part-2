@@ -51,3 +51,4 @@ channels <- 3 #recolour to GRB
 train_data_gen = image_data_generator(
   rescale = 1/255,
   validation_split = 0.2)
+
