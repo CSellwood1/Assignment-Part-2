@@ -37,3 +37,13 @@ for(folder in 1:output_n){
     dest_image <- paste0("test/"  , spp_list[folder], "/spp_", image, ".jpg")
     file.copy(src_image, dest_image)
     file.remove(src_image)}}
+
+#now we'll start training the model
+
+#need keras
+library(keras)
+#need to scale the images
+img_width <- 150
+img_height <- 150
+target_size <- c(img_width, img_height)
+channels <- 3 #recolour to GRB 
