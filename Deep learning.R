@@ -23,3 +23,10 @@ sloe_recs <-  get_inat_obs(taxon_name  = "Dolycoris baccarum",
 download_images(spp_recs = green_recs, spp_folder = "green")
 download_images(spp_recs = forest_recs, spp_folder = "forest")
 download_images(spp_recs = sloe_recs, spp_folder = "sloe")
+
+#now lets separate out 20% of the images for training
+image_files_path <- "images" # path to folder with bug photos
+spp_list <- dir(image_files_path) #picks up names by folder names
+output_n <- length(spp_list) #gives output of 3 for 3 species
+#make new folders for test images
+for(folder in 1:output_n){dir.create(paste("test", spp_list[folder], sep="/"), recursive=TRUE)}
