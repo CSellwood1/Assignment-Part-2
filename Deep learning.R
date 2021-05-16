@@ -11,12 +11,15 @@ green_recs <-  get_inat_obs(taxon_name  = "Palomena prasina",
                                 quality = "research",
                                 maxresults = 800)
 #get some forest bug images
-green_recs <-  get_inat_obs(taxon_name  = "Pentatoma rufipes",
+forest_recs <-  get_inat_obs(taxon_name  = "Pentatoma rufipes",
                             bounds = gb_ll,
                             quality = "research",
                             maxresults = 800)
 #get some sloe bug images
-green_recs <-  get_inat_obs(taxon_name  = "Dolycoris baccarum",
+sloe_recs <-  get_inat_obs(taxon_name  = "Dolycoris baccarum",
                             bounds = gb_ll,
                             quality = "research",
                             maxresults = 800)
+download_images(spp_recs = green_recs, spp_folder = "green")
+download_images(spp_recs = forest_recs, spp_folder = "forest")
+download_images(spp_recs = sloe_recs, spp_folder = "sloe")
