@@ -30,3 +30,10 @@ spp_list <- dir(image_files_path) #picks up names by folder names
 output_n <- length(spp_list) #gives output of 3 for 3 species
 #make new folders for test images
 for(folder in 1:output_n){dir.create(paste("test", spp_list[folder], sep="/"), recursive=TRUE)}
+#copy over 160 images per species into new folders with a loop to delete these from the original folders
+for(folder in 1:output_n){
+  for(image in 641:800){
+    src_image  <- paste0("images/", spp_list[folder], "/spp_", image, ".jpg")
+    dest_image <- paste0("test/"  , spp_list[folder], "/spp_", image, ".jpg")
+    file.copy(src_image, dest_image)
+    file.remove(src_image)}}
