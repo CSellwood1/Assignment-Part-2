@@ -139,7 +139,8 @@ history <- model %>% fit_generator(
 #assess results
 plot(history) #this shows validation accuracy peaks at around 55-60%, training keeps increasing
 #loss keeps decreasing for both datasets
-
+history<-plot(history)
+history + theme_classic()
 ###
 
 #save the model
