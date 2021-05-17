@@ -113,3 +113,30 @@ model %>%
 
 #check the structure
 print(model) #think it looks fine
+
+# Compile the model
+model %>% compile(
+  loss = "categorical_crossentropy",
+  optimizer = optimizer_rmsprop(lr = 0.0001, decay = 1e-6),
+  metrics = "accuracy")
+
+# Train the model with fit_generator
+history <- model %>% fit_generator(
+  # training data
+  train_image_array_gen,
+  
+  # epochs
+  steps_per_epoch = as.integer(train_samples / batch_size), 
+  epochs = epochs, 
+  
+  # validation data
+  validation_data = valid_image_array_gen,
+  validation_steps = as.integer(valid_samples / batch_size),
+  
+  # print progress
+  verbose = 2)
+
+#assess results
+plot(history) #this shows validation accuracy peaks at around 55-60%, training keeps increasing
+#loss keeps decreasing for both datasets
+
