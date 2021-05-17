@@ -28,6 +28,7 @@ download_images(spp_recs = sloe_recs, spp_folder = "sloe")
 image_files_path <- "images" # path to folder with bug photos
 spp_list <- dir(image_files_path) #picks up names by folder names
 output_n <- length(spp_list) #gives output of 3 for 3 species
+output_n #definitely makes three
 #make new folders for test images
 for(folder in 1:output_n){dir.create(paste("test", spp_list[folder], sep="/"), recursive=TRUE)}
 #copy over 160 images per species into new folders with a loop to delete these from the original folders
@@ -48,9 +49,7 @@ img_height <- 150
 target_size <- c(img_width, img_height)
 channels <- 3 #recolour to GRB 
 # Rescale colour hue from 255 to between zero and 1
-train_data_gen = image_data_generator(
-  rescale = 1/255,
-  validation_split = 0.2)
+train_data_gen = image_data_generator(rescale = 1/255, validation_split = 0.2)
 
 #load in training images
 #use seed of 42 for randomness
@@ -72,3 +71,7 @@ valid_image_array_gen <- flow_images_from_directory(image_files_path,
 #check the images have flowed correctly
 cat("Number of images per class:")
 table(factor(train_image_array_gen$classes))
+## Class labels vs index mapping
+train_image_array_gen$class_indices #shows all 3 species
+#check a single image
+plot(as.raster(train_image_array_gen[[1]][[1]][9,,,]))
