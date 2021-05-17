@@ -140,3 +140,30 @@ history <- model %>% fit_generator(
 plot(history) #this shows validation accuracy peaks at around 55-60%, training keeps increasing
 #loss keeps decreasing for both datasets
 
+###
+
+#save the model
+
+#need to unload imager to prevent function confusion
+detach("package:imager", unload = TRUE)
+#save
+save.image("bugs.RData")
+###
+
+#time to test the model
+path_test <- "test"
+
+test_data_gen <- image_data_generator(rescale = 1/255)
+
+test_image_array_gen <- flow_images_from_directory(path_test,
+                                                   test_data_gen,
+                                                   target_size = target_size,
+                                                   class_mode = "categorical",
+                                                   classes = spp_list,
+                                                   shuffle = FALSE, # do not shuffle the                                                                          images around
+                                                   batch_size = 1,  # Only 1 image at a time
+                                                   seed = 123)
+#found the correct number of images
+#now run through all the test images
+model %>% evaluate_generator(test_image_array_gen, steps = test_image_array_gen$n)
+#gave an accuracy of 51.04%, loss of 0.9998
