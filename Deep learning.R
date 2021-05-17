@@ -75,3 +75,41 @@ table(factor(train_image_array_gen$classes))
 train_image_array_gen$class_indices #shows all 3 species
 #check a single image
 plot(as.raster(train_image_array_gen[[1]][[1]][9,,,]))
+
+#set up model
+
+#define parameters
+# number of training samples
+train_samples <- train_image_array_gen$n
+# number of validation samples
+valid_samples <- valid_image_array_gen$n
+#set up number of epochs and batch size
+batch_size<- 32
+epochs<- 10
+##
+
+#create the model structure
+model <- keras_model_sequential()#define the model
+
+# add layers
+model %>%
+  layer_conv_2d(filter = 32, kernel_size = c(3,3), input_shape = c(img_width, img_height, channels), activation = "relu") %>%
+  
+  # Second hidden layer
+  layer_conv_2d(filter = 16, kernel_size = c(3,3), activation = "relu") %>%
+  
+  # Use max pooling
+  layer_max_pooling_2d(pool_size = c(2,2)) %>%
+  layer_dropout(0.25) %>%
+  
+  # Flatten max filtered output into feature vector 
+  # and feed into dense layer
+  layer_flatten() %>%
+  layer_dense(100, activation = "relu") %>%
+  layer_dropout(0.5) %>%
+  
+  # Outputs from dense layer are projected onto output layer
+  layer_dense(output_n, activation = "softmax") 
+
+#check the structure
+print(model) #think it looks fine
