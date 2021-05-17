@@ -167,3 +167,29 @@ test_image_array_gen <- flow_images_from_directory(path_test,
 #now run through all the test images
 model %>% evaluate_generator(test_image_array_gen, steps = test_image_array_gen$n)
 #gave an accuracy of 51.04%, loss of 0.9998
+
+###
+
+#make a confusion matrix
+
+#predict the bug species for each image in the test folders
+predictions <- model %>% 
+  predict_generator(
+    generator = test_image_array_gen,
+    steps = test_image_array_gen$n
+  ) %>% as.data.frame
+#make a table of the results
+colnames(predictions) <- spp_list
+#create a confusion matrix, takes the highest probability from each row
+# Create 3 x 3 table to store data
+confusion <- data.frame(matrix(0, nrow=3, ncol=3), row.names=spp_list)
+colnames(confusion) <- spp_list
+
+obs_values <- factor(c(rep(spp_list[1], 160),
+                       rep(spp_list[2], 160),
+                       rep(spp_list[3], 160)))
+pred_values <- factor(colnames(predictions)[apply(predictions, 1, which.max)])
+
+library(caret)
+conf_mat <- confusionMatrix(data = pred_values, reference = obs_values)
+conf_mat
