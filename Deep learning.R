@@ -52,3 +52,23 @@ train_data_gen = image_data_generator(
   rescale = 1/255,
   validation_split = 0.2)
 
+#load in training images
+#use seed of 42 for randomness
+train_image_array_gen <- flow_images_from_directory(image_files_path, 
+                                                    train_data_gen,
+                                                    target_size = target_size,
+                                                    class_mode = "categorical",
+                                                    classes = spp_list,
+                                                    subset = "training",
+                                                    seed = 42)
+#load in validation images
+valid_image_array_gen <- flow_images_from_directory(image_files_path, 
+                                                    train_data_gen,
+                                                    target_size = target_size,
+                                                    class_mode = "categorical",
+                                                    classes = spp_list,
+                                                    subset = "validation",
+                                                    seed = 42)
+#check the images have flowed correctly
+cat("Number of images per class:")
+table(factor(train_image_array_gen$classes))
